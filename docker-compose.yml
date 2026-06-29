@@ -1,0 +1,14 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: olsera-pos-mongodb
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - olsera_mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: olsera_pos
+
+volumes:
+  olsera_mongo_data:
