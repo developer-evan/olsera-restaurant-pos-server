@@ -11,6 +11,10 @@ export const envValidationSchema = Joi.object({
   JWT_REFRESH_EXPIRES_IN: Joi.string().default('7d'),
   API_PREFIX: Joi.string().default('api/v1'),
   CORS_ORIGINS: Joi.string().default('http://localhost:5173'),
+  SUPER_ADMIN_EMAIL: Joi.string().email().optional(),
+  SUPER_ADMIN_PASSWORD: Joi.string().min(8).optional(),
+  SUPER_ADMIN_FIRST_NAME: Joi.string().optional(),
+  SUPER_ADMIN_LAST_NAME: Joi.string().optional(),
 });
 
 export type EnvConfig = {

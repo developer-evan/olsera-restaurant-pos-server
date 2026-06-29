@@ -1,0 +1,34 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { OrganizationMemberRole } from '../enums/organization.enum';
+
+export type OrganizationMemberDocument = HydratedDocument<OrganizationMember>;
+
+@Schema({ timestamps: true, collection: 'organization_members' })
+export class OrganizationMember {
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true, index: true })
+  userId: Types.ObjectId;
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Organization',
+    required: true,
+    index: true,
+  })
+  organizationId: Types.ObjectId;
+
+  @Prop({
+    type: String,
+    enum: OrganizationMemberRole,
+    required: true,
+  })
+  role: OrganizationMemberRole;
+}
+
+export const OrganizationMemberSchema =
+  SchemaFactory.createForClass(OrganizationMember);
+
+OrganizationMemberSchema.index(
+  { userId: 1, organizationId: 1 },
+  { unique: true },
+);

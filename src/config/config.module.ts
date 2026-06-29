@@ -3,6 +3,7 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import appConfig from './app.config';
 import databaseConfig from './database.config';
 import jwtConfig from './jwt.config';
+import seedConfig from './seed.config';
 import { envValidationSchema } from './env.validation';
 
 @Global()
@@ -10,7 +11,7 @@ import { envValidationSchema } from './env.validation';
   imports: [
     NestConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, jwtConfig],
+      load: [appConfig, databaseConfig, jwtConfig, seedConfig],
       validationSchema: envValidationSchema,
       validationOptions: {
         abortEarly: true,

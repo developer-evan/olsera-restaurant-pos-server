@@ -40,6 +40,8 @@ export function configureApp(app: INestApplication): void {
     .setVersion('1.0')
     .addBearerAuth()
     .addTag('Health', 'Application and database health checks')
+    .addTag('Auth', 'Registration, login, and session management')
+    .addTag('Platform', 'Super admin tenant onboarding and management')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
