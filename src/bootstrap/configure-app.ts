@@ -42,6 +42,8 @@ export function configureApp(app: INestApplication): void {
     .addTag('Health', 'Application and database health checks')
     .addTag('Auth', 'Registration, login, and session management')
     .addTag('Platform', 'Super admin tenant onboarding and management')
+    .addTag('Organizations', 'Tenant organization context')
+    .addTag('Stores', 'Store switcher, store management, and staff invites')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

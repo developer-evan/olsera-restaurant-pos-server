@@ -10,6 +10,7 @@ const COLLECTIONS = [
   'organization_members',
   'stores',
   'store_memberships',
+  'store_invites',
 ];
 
 export async function setupTestDatabase(): Promise<void> {

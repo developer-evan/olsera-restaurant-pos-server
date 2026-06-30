@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ClientSession, Model } from 'mongoose';
+import { ClientSession, Model, Types } from 'mongoose';
 import { buildUniqueSlug } from '../../common/utils/slug.util';
 import {
   StoreMemberRole,
@@ -50,9 +50,9 @@ export class StoresService {
     await this.storeMembershipModel.create(
       [
         {
-          userId: input.ownerId,
+          userId: new Types.ObjectId(input.ownerId),
           storeId: store._id,
-          organizationId: input.organizationId,
+          organizationId: new Types.ObjectId(input.organizationId),
           role: StoreMemberRole.OWNER,
         },
       ],

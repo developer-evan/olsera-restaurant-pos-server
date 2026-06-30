@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
+import { InvitesService } from '../invites/invites.service';
+import { StoreMembershipsService } from '../stores/store-memberships.service';
 import { UserStatus } from '../users/enums/user.enum';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
@@ -23,6 +25,16 @@ describe('AuthService', () => {
     updateLastLogin: jest.fn(),
     toSafeUser: jest.fn(),
     getRefreshTokenModel: jest.fn(() => mockRefreshTokenModel),
+  };
+
+  const mockInvitesService = {
+    findValidByToken: jest.fn(),
+    markAccepted: jest.fn(),
+  };
+
+  const mockStoreMembershipsService = {
+    getMembership: jest.fn(),
+    addMember: jest.fn(),
   };
 
   const mockJwtService = {
@@ -55,6 +67,11 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         { provide: UsersService, useValue: mockUsersService },
+        { provide: InvitesService, useValue: mockInvitesService },
+        {
+          provide: StoreMembershipsService,
+          useValue: mockStoreMembershipsService,
+        },
         { provide: JwtService, useValue: mockJwtService },
         { provide: ConfigService, useValue: mockConfigService },
       ],

@@ -1,6 +1,8 @@
 import {
+  ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -13,8 +15,11 @@ import {
   parseDurationToMs,
 } from '../../common/utils/token.util';
 import { UserStatus } from '../users/enums/user.enum';
+import { InvitesService } from '../invites/invites.service';
+import { StoreMembershipsService } from '../stores/store-memberships.service';
 import { UsersService } from '../users/users.service';
 import { SafeUser } from '../users/types/user.types';
+import { AcceptInviteDto } from './dto/accept-invite.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { AuthResult, AuthTokens, JwtPayload } from './types/auth.types';
@@ -25,6 +30,8 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly invitesService: InvitesService,
+    private readonly storeMembershipsService: StoreMembershipsService,
   ) {}
 
   async register(_dto: RegisterDto): Promise<AuthResult> {
@@ -84,6 +91,69 @@ export class AuthService {
       throw new UnauthorizedException('User not found');
     }
     return user;
+  }
+
+  async acceptInvite(dto: AcceptInviteDto): Promise<AuthResult> {
+    const invite = await this.invitesService.findValidByToken(dto.token);
+    if (!invite) {
+      throw new NotFoundException('Invite is invalid or expired');
+    }
+
+    const existingUser = await this.usersService.findByEmail(
+      invite.email,
+      true,
+    );
+    let user: SafeUser;
+
+    if (existingUser) {
+      const isPasswordValid = await bcrypt.compare(
+        dto.password,
+        existingUser.passwordHash,
+      );
+      if (!isPasswordValid) {
+        throw new UnauthorizedException(
+          'Invalid password for existing account',
+        );
+      }
+      user = this.usersService.toSafeUser(existingUser);
+    } else {
+      const passwordHash = await bcrypt.hash(dto.password, 10);
+      user = await this.usersService.create({
+        email: invite.email,
+        passwordHash,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      });
+    }
+
+    const membership = await this.storeMembershipsService.getMembership(
+      user.id,
+      invite.storeId.toString(),
+    );
+    if (membership) {
+      throw new ConflictException('You are already a member of this store');
+    }
+
+    await this.storeMembershipsService.addMember({
+      userId: user.id,
+      storeId: invite.storeId.toString(),
+      organizationId: invite.organizationId.toString(),
+      role: invite.role,
+    });
+
+    await this.invitesService.markAccepted(invite._id.toString());
+    await this.usersService.updateLastLogin(user.id);
+
+    const tokens = await this.issueTokens(user);
+    return {
+      user: this.toAuthUser(user),
+      tokens,
+      membership: {
+        storeId: invite.storeId.toString(),
+        organizationId: invite.organizationId.toString(),
+        role: invite.role,
+      },
+    };
   }
 
   private async validateCredentials(

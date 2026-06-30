@@ -16,6 +16,7 @@ import {
 import type { SafeUser } from '../users/types/user.types';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { AcceptInviteDto } from './dto/accept-invite.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
@@ -42,6 +43,16 @@ export class AuthController {
   @ApiResponse({ status: 200, type: AuthResponseDto })
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
+  }
+
+  @Post('accept-invite')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Accept a store invite and join as staff (returns login tokens)',
+  })
+  @ApiResponse({ status: 200, type: AuthResponseDto })
+  acceptInvite(@Body() dto: AcceptInviteDto) {
+    return this.authService.acceptInvite(dto);
   }
 
   @Post('refresh')

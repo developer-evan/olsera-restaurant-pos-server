@@ -22,4 +22,9 @@ export type AuthResult = {
     status: string;
   };
   tokens: AuthTokens;
+  membership?: {
+    storeId: string;
+    organizationId: string;
+    role: string;
+  };
 };

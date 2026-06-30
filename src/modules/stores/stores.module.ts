@@ -5,6 +5,7 @@ import {
   StoreMembershipSchema,
 } from './schemas/store-membership.schema';
 import { Store, StoreSchema } from './schemas/store.schema';
+import { StoreMembershipsService } from './store-memberships.service';
 import { StoresService } from './stores.service';
 
 @Module({
@@ -14,7 +15,7 @@ import { StoresService } from './stores.service';
       { name: StoreMembership.name, schema: StoreMembershipSchema },
     ]),
   ],
-  providers: [StoresService],
-  exports: [StoresService],
+  providers: [StoresService, StoreMembershipsService],
+  exports: [StoresService, StoreMembershipsService],
 })
 export class StoresModule {}
