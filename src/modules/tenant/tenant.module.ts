@@ -7,6 +7,7 @@ import { ProductsModule } from '../products/products.module';
 import { PromosModule } from '../promos/promos.module';
 import { OrdersModule } from '../orders/orders.module';
 import { TransactionsModule } from '../transactions/transactions.module';
+import { AnalyticsModule } from '../analytics/analytics.module';
 import { StoresModule } from '../stores/stores.module';
 import { UsersModule } from '../users/users.module';
 import { OrganizationsController } from './organizations.controller';
@@ -25,6 +26,7 @@ import { TenantService } from './tenant.service';
     PromosModule,
     OrdersModule,
     TransactionsModule,
+    AnalyticsModule,
   ],
   controllers: [OrganizationsController, StoresController],
   providers: [TenantService],
