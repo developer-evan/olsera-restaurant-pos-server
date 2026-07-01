@@ -4,12 +4,14 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthModule } from './modules/health/health.module';
 import { PlatformModule } from './modules/platform/platform.module';
+import { RbacModule } from './modules/rbac/rbac.module';
 import { TenantModule } from './modules/tenant/tenant.module';
 
 @Module({
   imports: [
     AppConfigModule,
     DatabaseModule,
+    RbacModule,
     HealthModule,
     AuthModule,
     PlatformModule,

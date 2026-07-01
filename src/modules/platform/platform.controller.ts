@@ -10,19 +10,25 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { PlatformPermission } from '../rbac/constants/permissions.constant';
+import { PlatformPermissions } from '../rbac/decorators/permissions.decorator';
+import { PermissionsGuard } from '../rbac/guards/permissions.guard';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OnboardTenantDto } from './dto/onboard-tenant.dto';
-import { PlatformGuard } from './guards/platform.guard';
 import { PlatformService } from './platform.service';
 
 @ApiTags('Platform')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, PlatformGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 @Controller('platform')
 export class PlatformController {
   constructor(private readonly platformService: PlatformService) {}
 
   @Post('onboarding')
+  @PlatformPermissions(
+    PlatformPermission.ONBOARDING_CREATE,
+    PlatformPermission.ORGANIZATIONS_CREATE,
+  )
   @ApiOperation({
     summary: 'Onboard a tenant (owner + organization + first store)',
   })
@@ -31,6 +37,7 @@ export class PlatformController {
   }
 
   @Get('organizations')
+  @PlatformPermissions(PlatformPermission.ORGANIZATIONS_READ)
   @ApiOperation({ summary: 'List all tenant organizations' })
   listOrganizations() {
     return this.platformService.listOrganizations();

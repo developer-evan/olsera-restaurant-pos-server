@@ -44,6 +44,10 @@ export function configureApp(app: INestApplication): void {
     .addTag('Platform', 'Super admin tenant onboarding and management')
     .addTag('Organizations', 'Tenant organization context')
     .addTag('Stores', 'Store switcher, store management, and staff invites')
+    .addTag('Categories', 'Menu category management per store')
+    .addTag('Products', 'Menu product management per store')
+    .addTag('Promos', 'Discount codes and promo validation for POS')
+    .addTag('RBAC', 'Role-based access control and store permissions')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
