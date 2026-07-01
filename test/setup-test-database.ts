@@ -14,6 +14,8 @@ const COLLECTIONS = [
   'categories',
   'products',
   'promos',
+  'orders',
+  'transactions',
 ];
 
 export async function setupTestDatabase(): Promise<void> {

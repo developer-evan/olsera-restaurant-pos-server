@@ -5,6 +5,8 @@ import { InvitesModule } from '../invites/invites.module';
 import { OrganizationsModule } from '../organizations/organizations.module';
 import { ProductsModule } from '../products/products.module';
 import { PromosModule } from '../promos/promos.module';
+import { OrdersModule } from '../orders/orders.module';
+import { TransactionsModule } from '../transactions/transactions.module';
 import { StoresModule } from '../stores/stores.module';
 import { UsersModule } from '../users/users.module';
 import { OrganizationsController } from './organizations.controller';
@@ -21,6 +23,8 @@ import { TenantService } from './tenant.service';
     CategoriesModule,
     ProductsModule,
     PromosModule,
+    OrdersModule,
+    TransactionsModule,
   ],
   controllers: [OrganizationsController, StoresController],
   providers: [TenantService],

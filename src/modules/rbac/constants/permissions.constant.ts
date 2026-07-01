@@ -21,6 +21,8 @@ export enum Permission {
   ORDERS_READ = 'orders:read',
   ORDERS_UPDATE = 'orders:update',
   TRANSACTIONS_READ = 'transactions:read',
+  TRANSACTIONS_CREATE = 'transactions:create',
+  TRANSACTIONS_REFUND = 'transactions:refund',
   ANALYTICS_READ = 'analytics:read',
 }
 

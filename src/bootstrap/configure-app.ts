@@ -47,6 +47,8 @@ export function configureApp(app: INestApplication): void {
     .addTag('Categories', 'Menu category management per store')
     .addTag('Products', 'Menu product management per store')
     .addTag('Promos', 'Discount codes and promo validation for POS')
+    .addTag('Orders', 'POS order lifecycle and line items')
+    .addTag('Transactions', 'Order payments, refunds, and transaction history')
     .addTag('RBAC', 'Role-based access control and store permissions')
     .build();
 

@@ -24,6 +24,8 @@ export const STORE_ROLE_PERMISSIONS: Record<StoreMemberRole, Permission[]> = {
     Permission.ORDERS_READ,
     Permission.ORDERS_UPDATE,
     Permission.TRANSACTIONS_READ,
+    Permission.TRANSACTIONS_CREATE,
+    Permission.TRANSACTIONS_REFUND,
     Permission.ANALYTICS_READ,
   ],
   [StoreMemberRole.MANAGER]: [
@@ -48,6 +50,8 @@ export const STORE_ROLE_PERMISSIONS: Record<StoreMemberRole, Permission[]> = {
     Permission.ORDERS_READ,
     Permission.ORDERS_UPDATE,
     Permission.TRANSACTIONS_READ,
+    Permission.TRANSACTIONS_CREATE,
+    Permission.TRANSACTIONS_REFUND,
     Permission.ANALYTICS_READ,
   ],
   [StoreMemberRole.CASHIER]: [
@@ -57,6 +61,7 @@ export const STORE_ROLE_PERMISSIONS: Record<StoreMemberRole, Permission[]> = {
     Permission.ORDERS_CREATE,
     Permission.ORDERS_READ,
     Permission.ORDERS_UPDATE,
+    Permission.TRANSACTIONS_CREATE,
   ],
   [StoreMemberRole.KITCHEN]: [
     Permission.STORES_READ,
